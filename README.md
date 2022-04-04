@@ -20,6 +20,3 @@ Clone or download it as ZIP file. Open your terminal, go to the project folder a
 
 Made by Matheus Wecheley.
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
