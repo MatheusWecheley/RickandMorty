@@ -14,7 +14,12 @@ export default {
 </script>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap');
+
+
 *{
-  margin: 0
+  margin: 0;
+  font-family: 'Signika Negative', sans-serif;
 }
 </style>

@@ -1,16 +1,21 @@
 <template>
   <div class='corpo'>
-    <p>Personagens do Rick and Morty:</p>
-    <div class="header">
+    <div class="container">
+      <div class="header">
+      <p>Pesquise pelo personagem de Rick e Morty:</p>
       <input type="text" v-model="name" />
       <button v-on:click="search(e)" type="submit">Pesquisar</button>
     </div>
-    <div class="container">
       <ul>
         <li v-for="(personagens, i) in character" :key="i">
-          <h4>{{ personagens.name }}</h4>
-          <span>Situação atual:{{ personagens.status }}</span>
           <img :src="personagens.image" :alt="personagens.name" />
+          <h4>{{ personagens.name }}</h4>
+          <span v-if='personagens.status == "Alive"'>Situação atual: <span className='Alive'>Vivo </span></span>
+          <span v-else-if='personagens.status == "Dead"'>Situação atual: <span className='Dead'>Morto </span></span>
+          <span v-else>Situação atual: <span className='unknown'>Desconhecido </span></span>
+          <span v-if="personagens.species == 'Human'">Espécie: <span className='Human'>Humano</span></span>
+          <span v-else>Espécie: {{personagens.species}}</span>
+          
         </li>
       </ul>
     </div>
@@ -25,7 +30,7 @@ export default {
   data() {
     return {
       name: "",
-      character: [],
+      character: {},
       status: [],
     }
   },
@@ -33,8 +38,6 @@ export default {
     let response = await fetch(`https://rickandmortyapi.com/api/character`);
     let result = await response.json();
     this.character = result.results;
-    this.status = this.character[0].status
-    console.log(this.status);
   },
   methods: {
     async search(e) {
@@ -44,6 +47,9 @@ export default {
       let teste = await response.json();
       this.character = teste.results;
     },
+    async mapStatus() {
+      
+    }
   },
 };
 </script>
@@ -56,15 +62,20 @@ export default {
 }
 
 p {
+  color: white;
+  font-weight: bold;
   display: flex;
   justify-content: center;
+  margin: 20px;
 }
 
 .header {
   align-items: center;
+  background-color: #1f1f23;
+  -webkit-box-shadow: 0px 8px 5px 2px #000000; 
+  box-shadow: 0px 8px 10px 2px #000000;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
   padding: 20px;
 }
 
@@ -72,6 +83,7 @@ p {
   border-color: #04afca;
   border-radius: 8px;
   padding: 12px;
+  width: 17%;
 }
 
 .header button {
@@ -86,39 +98,68 @@ p {
 
 .container {
   background: rgb(98,204,40);
-  background: linear-gradient(90deg, rgba(98,204,40,1) 0%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(90deg, #62cc28 0%, #00d4ff 100%);
 }
 
 .container ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   column-gap: 3rem;
   row-gap: 4rem;
 }
 
 .container li {
   align-items: center;
+  background-color: #1f1f23;
+  border-radius: 25px;
+  box-shadow: 2px 4px 9px 2px #1f1f23;
   display: flex;
   flex-direction: column;
   margin-top: 40px;
+  padding: 15px;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  transition: .2s
 }
 
+.container li:hover{
+  transform: scale(1.1);
+}
+
+.Alive {
+  color: green;
+}
+
+.Dead {
+  color: red;
+}
+
+.unknown {
+  color: gray;
+}
 
 img{
-  width: 180px;
+  width: 300px;
   border-radius: 1rem;
   cursor: pointer;
   transition: .2s
 }
 
-img:hover{
+span {
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+span:hover, img:hover{
   transform: scale(1.1);
 }
 
 h4{
+  margin-top: 25px;
   font-size: 30px;
-  color: black;
+  color: rgb(241, 241, 241);
 }
 
 </style>
